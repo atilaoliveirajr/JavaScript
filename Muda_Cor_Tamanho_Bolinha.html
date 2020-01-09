@@ -1,0 +1,80 @@
+<canvas width="1800" height="800"></canvas>
+
+<script>
+
+	var tela = document.querySelector ("canvas");
+	var pincel = tela.getContext("2d");
+
+
+	pincel.fillStyle = "grey";
+	pincel.fillRect(0, 0, 1800, 800);
+
+
+	var cores = ['blue', 'red', 'green', "black", "yellow"]
+	var indiceCorAtual = 0;
+	var raio = 10;
+	var desenha = false;
+
+	tela.onmousedown = function () {
+
+		desenha = true;
+	}
+
+	
+	tela.onmouseup = function  () {
+
+		desenha = false;
+
+	}
+
+	tela.onmousemove = function (evento) {
+
+		if (desenha) {
+
+			var x = evento.pageX - tela.offsetLeft;
+			var y = evento.pageY - tela.offsetTop;
+
+			pincel.fillStyle = cores[indiceCorAtual];
+			pincel.beginPath();
+			pincel.arc(x, y, raio, 0, 2 * Math.PI);
+			pincel.fill();
+
+			if (evento.shiftKey && evento.altKey) {
+
+            	alert('Só aperte uma tecla por vez, por favor!')
+
+        	}
+
+
+			if (evento.shiftKey == true && raio < 100) {
+
+				raio += 10;
+
+			} 
+
+			if (evento.altKey == true && raio > 10) {
+
+				raio -= 10;
+
+			}
+
+		}
+
+		
+	}
+
+
+	tela.oncontextmenu = function () {
+
+        indiceCorAtual++;
+
+        if(indiceCorAtual >= cores.length) {
+            indiceCorAtual = 0;
+        }
+
+        return false;
+    }
+
+
+
+</script>
